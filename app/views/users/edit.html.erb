@@ -1,4 +1,6 @@
  <h2>User info</h2>
+ 
+ <%= render 'books/errors',model: @user %>
     <%= form_with model:@user, local: true do |f| %>
       <div class="form-group">
         <label for="user_name">Name</label>
