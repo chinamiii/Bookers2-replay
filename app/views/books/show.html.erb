@@ -21,6 +21,23 @@
   		         </td>
                <td><%= @book.title %></td>
                <td><%= @book.body %></td>
+
+                  <td>
+                     <% if @book.favorited_by?(current_user) %>
+
+                         <%= link_to book_favorites_path(@book), method: :delete do %>
+                            ♥<%= @book.favorites.count %> いいね
+                         <% end %>
+
+                      <% else %>
+
+                         <%= link_to book_favorites_path(@book), method: :post do %>
+                            ♡<%= @book.favorites.count %> いいね
+                         <% end %>
+
+                     <% end %>
+                   </td>
+
                <td>コメント件数：<%= @book.book_comments.count %></td>
 
                <% if @book.user == current_user %>
@@ -35,8 +52,10 @@
               <tr>
                 <% @book.book_comments.each do |book_comment| %>
                    <td>
-                     <%= attachment_image_tag book_comment.user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "60x60" %><br>
-                     <%= book_comment.user.name %>
+                     <%= link_to user_path(book_comment.user) do %>
+                       <%= attachment_image_tag book_comment.user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "60x60" %><br>
+                       <%= book_comment.user.name %>
+                     <% end %>
                    </td>
                    <td><%= book_comment.comment %></td>
 
